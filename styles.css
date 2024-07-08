@@ -608,6 +608,12 @@ main.shift {
     margin: 0 auto;
 }
 
+.diary-updates img {
+    width: 70%;
+    max-width: 100%;    
+    height: auto;
+}
+
 .update-carousel {
     perspective: 1000px;
     width: 100%;
@@ -676,7 +682,6 @@ main.shift {
     color: #333;
     transform: rotate(180deg);
     transition: opacity 0.8s ease;
-    z-index: 1000;
 }
 
 .gallery-container {
@@ -1577,6 +1582,10 @@ main.shift {
 
     .toy-wrapper p {
         font-size: 0.7em;
+    }
+
+    .addition-info {
+        margin-bottom: 5%;
     }
 
     .addition-info h2 {
