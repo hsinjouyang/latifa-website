@@ -154,6 +154,43 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Product Info Carousel for mobile
+document.addEventListener('DOMContentLoaded', function() {
+    const productList = document.querySelector('.list');
+    const dotsContainer = document.querySelector('.dots-container');
+    const productsPerPage = 4;
+    const totalDots = 3; // Set to 3 dots
+
+    const products = Array.from(productList.children);
+    const pageCount = Math.ceil(products.length / productsPerPage);
+
+    // Create 3 dots
+    dotsContainer.innerHTML = ''; // Clear existing dots
+    for (let i = 0; i < totalDots; i++) {
+        const dot = document.createElement('span');
+        dot.classList.add('dot');
+        dotsContainer.appendChild(dot);
+    }
+
+    const dots = Array.from(dotsContainer.children);
+
+    function updateActiveDot() {
+        const scrollPosition = productList.scrollLeft;
+        const pageWidth = productList.offsetWidth;
+        const currentPage = Math.floor(scrollPosition / pageWidth);
+
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === Math.min(currentPage, totalDots - 1));
+        });
+    }
+
+    // Initial update
+    updateActiveDot();
+
+    // Update on scroll
+    productList.addEventListener('scroll', updateActiveDot);
+});
+
 // Diary 3D Carousel
 document.addEventListener('DOMContentLoaded', function() {
     const carouselContainer = document.querySelector('.update-carousel-container');
@@ -178,6 +215,44 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize the carousel
     updateCarousel();
+});
+
+// Side text fade out
+document.addEventListener('DOMContentLoaded', function() {
+    const sideText = document.querySelector('.side-text');
+    const galleryPage = document.querySelector('.gallery-page');
+    
+    if (!sideText || !galleryPage) {
+        console.error("Side text or gallery page element not found");
+        return;
+    }
+
+    let isVisible = true;
+    let fadeOutTimer;
+
+    function hideSideText() {
+        sideText.style.opacity = '0';
+        isVisible = false;
+    }
+
+    function showSideText() {
+        sideText.style.opacity = '1';
+        isVisible = true;
+    }
+
+    galleryPage.addEventListener('scroll', function() {
+        clearTimeout(fadeOutTimer);
+
+        if (galleryPage.scrollLeft > 10) { // Small threshold to prevent accidental triggers
+            if (isVisible) {
+                fadeOutTimer = setTimeout(() => {
+                    hideSideText();
+                }); // Adjust this value to control how slowly the text fades out
+            }
+        } else {
+            showSideText();
+        }
+    }, { passive: true });
 });
 
 // Gallery image diaplay

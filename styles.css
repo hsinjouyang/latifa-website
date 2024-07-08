@@ -653,10 +653,19 @@ main.shift {
 
 
 
+.gallery-page {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    height: calc(100vh - 60px);
+    scroll-behavior: smooth;
+}
+
+
 .side-text {
     font-family: serif;
     position: fixed;
-    left: 5;
+    left: 5px;
     top: 0;
     bottom: 0;
     writing-mode: vertical-lr;
@@ -666,6 +675,8 @@ main.shift {
     font-size: 1.5rem;
     color: #333;
     transform: rotate(180deg);
+    transition: opacity 0.8s ease;
+    z-index: 1000;
 }
 
 .gallery-container {
@@ -675,11 +686,11 @@ main.shift {
 }
 
 .gallery {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-auto-flow: column;
+    display: inline-flex;
     gap: 40px;
     padding-left: 300px;
+    padding-right: 100px;
+    height: 100%;
 }
 
 .gallery h2, .gallery-item p {
@@ -693,6 +704,7 @@ main.shift {
 
 .gallery-item {
     display: flex;
+    flex: 0 0 auto;
     flex-direction: column;
     align-items: flex-start;
     width: 300px;
@@ -1620,4 +1632,68 @@ main.shift {
         right: 10px;
     }
 
+    .product-list {
+        padding-left: 5%;
+        padding-right: 5%;
+        overflow: hidden;
+    }
+
+    .list {
+        display: grid;
+        grid-template-columns: repeat(6, 50%);  /* 4 columns of 50% width each */
+        gap: 20px;
+        padding: 10px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .product {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        scroll-snap-align: start;
+    }
+
+    .product-image {
+        width: 50%;
+        height: auto;
+    }
+
+    .product-name {
+        margin-top: 5px;
+        margin-left: 0;
+        opacity: 1;
+        font-size: 0.65em;
+        text-align: center;
+    }
+
+    .dots-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .dot {
+        width: 5px;
+        height: 5px;
+        background-color: #bbb;
+        border-radius: 50%;
+        margin: 0 5px;
+        cursor: pointer;
+    }
+
+    .dot.active {
+        background-color: #717171;
+    }
+
+    /* Hide scrollbar for cleaner look */
+    .list::-webkit-scrollbar {
+        display: none;
+    }
+    .list {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
 }
