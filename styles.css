@@ -602,15 +602,15 @@ main.shift {
 }
 
 .diary-updates {
-    max-width: 100%;    
+    max-width: 85%;    
     height: auto;    
     display: block;    
     margin: 0 auto;
 }
 
 .diary-updates img {
-    width: 50%; 
-    max-width: 80%;    
+    width: 80%; 
+    max-width: 100%;    
     height: auto;
     padding-left: 20%;
     padding-right: 20%;
@@ -1145,16 +1145,6 @@ main.shift {
         right: 10px;
     }
 
-    .diary-updates img {
-        width: 50%   !important;
-        max-width: 80%; 
-        height: auto;
-        padding-left: 20%;
-        padding-right: 20%;
-        margin-left: 10%;
-        margin-right: 10%;
-    }
-
 }
 
 /* Large desktop styles */
@@ -1370,16 +1360,6 @@ main.shift {
     
     .next {
         right: 10px;
-    }
-
-    .diary-updates img {
-        width: 50%   !important;
-        max-width: 80%; 
-        height: auto;
-        padding-left: 20%;
-        padding-right: 20%;
-        margin-left: 10%;
-        margin-right: 10%;
     }
 }
 
