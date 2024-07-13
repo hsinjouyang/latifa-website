@@ -609,7 +609,7 @@ main.shift {
 }
 
 .diary-updates img {
-    width: 50%;
+    width: 50%; 
     max-width: 80%;    
     height: auto;
     padding-left: 20%;
@@ -1146,7 +1146,7 @@ main.shift {
     }
 
     .diary-updates img {
-        width: 50%;
+        width: 50%   !important;
         max-width: 80%; 
         height: auto;
         padding-left: 20%;
@@ -1373,7 +1373,7 @@ main.shift {
     }
 
     .diary-updates img {
-        width: 50%;
+        width: 50%   !important;
         max-width: 80%; 
         height: auto;
         padding-left: 20%;
