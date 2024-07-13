@@ -602,16 +602,13 @@ main.shift {
 }
 
 .diary-updates {
-    max-width: 70%;    
+    max-width: 80%;    
     height: auto;    
     display: block;    
     margin: 0 auto;
 }
 
-.diary-updates img {
-    width: 80%; 
-    max-width: 100%;    
-    height: auto;
+.diary-updates img {   
     padding-left: 20%;
     padding-right: 20%;
 }
@@ -1151,14 +1148,6 @@ main.shift {
     .next {
         right: 10px;
     }
-
-    .diary-updates {
-        max-width: 70%;    
-        height: auto;    
-        display: block;    
-        margin: 0 auto;
-    }
-
 }
 
 /* Large desktop styles */
@@ -1374,13 +1363,6 @@ main.shift {
     
     .next {
         right: 10px;
-    }
-
-    .diary-updates {
-        max-width: 70%;    
-        height: auto;    
-        display: block;    
-        margin: 0 auto;
     }
 }
 
