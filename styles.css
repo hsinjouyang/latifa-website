@@ -1151,6 +1151,8 @@ main.shift {
         height: auto;
         padding-left: 20%;
         padding-right: 20%;
+        margin-left: 10%;
+        margin-right: 10%;
     }
 
 }
@@ -1376,6 +1378,8 @@ main.shift {
         height: auto;
         padding-left: 20%;
         padding-right: 20%;
+        margin-left: 10%;
+        margin-right: 10%;
     }
 }
 
