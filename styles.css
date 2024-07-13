@@ -608,16 +608,12 @@ main.shift {
     margin: 0 auto;
 }
 
-.update-carousel-item {
-    width: 70%;
-    padding-left: 20%;
-    padding-right: 20%;
-}
-
 .diary-updates img {
     width: 70%;
     max-width: 100%;    
     height: auto;
+    padding-left: 20%;
+    padding-right: 20%;
 }
 
 .update-carousel {
