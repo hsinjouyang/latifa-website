@@ -1,4 +1,82 @@
-document.addEventListener('DOMContentLoaded', function() {
+// Menu Toggle Function
+function toggleMenu() {
+    const menu = document.getElementById('sidebar-menu');
+    const mainContent = document.querySelector('main');
+    const body = document.body;
+
+    if (menu.classList.contains('show')) {
+        menu.classList.remove('show');
+        mainContent.classList.remove('shift');
+        body.classList.remove('menu-open');
+    } else {
+        menu.classList.add('show');
+        mainContent.classList.add('shift');
+
+        // Only add the menu-open class on desktop screens
+        if (window.innerWidth >= 1024 && window.innerWidth <= 1365) {
+            body.classList.add('menu-open');
+        }
+    }
+}
+
+// Immediately set up menu toggle
+document.querySelector('.dropbtn').onclick = toggleMenu;
+
+// Loading Screen 
+function handleLoadingScreen() {
+    const loadingScreen = document.getElementById('loading-screen');
+    const loadingImage1 = document.getElementById('loading-image-1');
+    const loadingImage2 = document.getElementById('loading-image-2');
+
+    // Adjust these timings as needed (in milliseconds)
+    const firstImageDuration = 1000; // 1 second
+    const secondImageDuration = 2000; // 2 seconds - adjust this value to make it longer
+
+    function switchToSecondImage() {
+        loadingImage1.style.display = 'none';
+        loadingImage2.style.display = 'block';
+    }
+
+    function hideLoadingScreen() {
+        loadingScreen.style.opacity = '0';
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+        }, 500);
+    }
+
+    // Ensure the first image is visible initially
+    loadingImage1.style.display = 'block';
+    loadingImage2.style.display = 'none';
+
+    if (document.readyState === 'complete') {
+        // If the page is already loaded, show images in sequence then hide
+        setTimeout(() => {
+            switchToSecondImage();
+            setTimeout(hideLoadingScreen, secondImageDuration);
+        }, firstImageDuration);
+    } else {
+        // If the page is still loading, switch images and wait for load
+        setTimeout(switchToSecondImage, firstImageDuration);
+        window.addEventListener('load', function() {
+            setTimeout(hideLoadingScreen, secondImageDuration);
+        });
+    }
+}
+
+// Handle Resize Events
+function handleResize() {
+    const body = document.body;
+    const menu = document.getElementById('sidebar-menu');
+
+    if (window.innerWidth < 1024 || window.innerWidth > 1365) {
+        body.classList.remove('menu-open');
+    } else if (menu.classList.contains('show')) {
+        body.classList.add('menu-open');
+    }
+}
+
+// Initialize all functionality
+function initializePage() {
     // Home Link Event Listener
     const homeLink = document.getElementById('home-link');
     homeLink.addEventListener('click', function(event) {
@@ -6,41 +84,16 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = 'index.html'; // Navigate to the home page
     });
 
-    // Menu Toggle
-    const menuToggle = document.querySelector('.dropbtn');
-    menuToggle.addEventListener('click', toggleMenu);
-
-    function toggleMenu() {
-        const menu = document.getElementById('sidebar-menu');
-        const mainContent = document.querySelector('main');
-        const body = document.body;
-
-        if (menu.classList.contains('show')) {
-            menu.classList.remove('show');
-            mainContent.classList.remove('shift');
-            body.classList.remove('menu-open');
-        } else {
-            menu.classList.add('show');
-            mainContent.classList.add('shift');
-
-            // Only add the menu-open class on desktop screens
-            if (window.innerWidth >= 1024 && window.innerWidth <= 1365) {
-                body.classList.add('menu-open');
-            }
-        }
-    }
-
     // Handle Resize Events
-    window.addEventListener('resize', function() {
-        const body = document.body;
-        const menu = document.getElementById('sidebar-menu');
+    window.addEventListener('resize', handleResize);
+}
 
-        if (window.innerWidth < 1024 || window.innerWidth > 1365) {
-            body.classList.remove('menu-open');
-        } else if (menu.classList.contains('show')) {
-            body.classList.add('menu-open');
-        }
-    });
+// Run loading screen and initialization
+handleLoadingScreen();
+initializePage();
+
+// Additional safety to ensure everything is set up
+document.addEventListener('DOMContentLoaded', initializePage);
 
     // About Page Image Swap
     const aboutImages = document.querySelectorAll('.about-image');
@@ -133,7 +186,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     });
-});
 
 // Product Info Carousel for mobile
 document.addEventListener('DOMContentLoaded', function() {
