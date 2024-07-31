@@ -1,118 +1,136 @@
-// Menu Toggle Function
-function toggleMenu() {
-    const menu = document.getElementById('sidebar-menu');
-    const mainContent = document.querySelector('main');
-    const body = document.body;
+// Wrap everything in a DOMContentLoaded event listener
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Script is running');
 
-    if (menu.classList.contains('show')) {
-        menu.classList.remove('show');
-        mainContent.classList.remove('shift');
-        body.classList.remove('menu-open');
-    } else {
-        menu.classList.add('show');
-        mainContent.classList.add('shift');
+    // Utility function to safely query elements
+    function $(selector) {
+        return document.querySelector(selector);
+    }
 
-        // Only add the menu-open class on desktop screens
-        if (window.innerWidth >= 1024 && window.innerWidth <= 1365) {
-            body.classList.add('menu-open');
+    // Utility function to safely query all elements
+    function $$(selector) {
+        return document.querySelectorAll(selector);
+    }
+
+    // Menu Toggle Function
+    function toggleMenu() {
+        const menu = $('#sidebar-menu');
+        const mainContent = $('main');
+        const body = document.body;
+
+        if (menu && mainContent) {
+            if (menu.classList.contains('show')) {
+                menu.classList.remove('show');
+                mainContent.classList.remove('shift');
+                body.classList.remove('menu-open');
+            } else {
+                menu.classList.add('show');
+                mainContent.classList.add('shift');
+
+                // Only add the menu-open class on desktop screens
+                if (window.innerWidth >= 1024 && window.innerWidth <= 1365) {
+                    body.classList.add('menu-open');
+                }
+            }
         }
     }
-}
 
-// Immediately set up menu toggle
-document.querySelector('.dropbtn').onclick = toggleMenu;
-
-// Loading Screen 
-function handleLoadingScreen() {
-    const loadingScreen = document.getElementById('loading-screen');
-    const loadingImage1 = document.getElementById('loading-image-1');
-    const loadingImage2 = document.getElementById('loading-image-2');
-
-    // Adjust these timings as needed (in milliseconds)
-    const firstImageDuration = 1000; // 1 second
-    const secondImageDuration = 2000; // 2 seconds - adjust this value to make it longer
-
-    function switchToSecondImage() {
-        loadingImage1.style.display = 'none';
-        loadingImage2.style.display = 'block';
+    // Set up menu toggle
+    const menuToggle = $('.dropbtn');
+    if (menuToggle) {
+        menuToggle.onclick = toggleMenu;
     }
 
-    function hideLoadingScreen() {
-        loadingScreen.style.opacity = '0';
-        setTimeout(() => {
-            loadingScreen.style.display = 'none';
-        }, 500);
+    // Loading Screen 
+    function handleLoadingScreen() {
+        const loadingScreen = $('#loading-screen');
+        const loadingImage1 = $('#loading-image-1');
+        const loadingImage2 = $('#loading-image-2');
+
+        if (!loadingScreen || !loadingImage1 || !loadingImage2) return;
+
+        const firstImageDuration = 1000;
+        const secondImageDuration = 2000;
+
+        function switchToSecondImage() {
+            loadingImage1.style.display = 'none';
+            loadingImage2.style.display = 'block';
+        }
+
+        function hideLoadingScreen() {
+            loadingScreen.style.opacity = '0';
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 500);
+        }
+
+        loadingImage1.style.display = 'block';
+        loadingImage2.style.display = 'none';
+
+        if (document.readyState === 'complete') {
+            setTimeout(() => {
+                switchToSecondImage();
+                setTimeout(hideLoadingScreen, secondImageDuration);
+            }, firstImageDuration);
+        } else {
+            setTimeout(switchToSecondImage, firstImageDuration);
+            window.addEventListener('load', function() {
+                setTimeout(hideLoadingScreen, secondImageDuration);
+            });
+        }
     }
-
-    // Ensure the first image is visible initially
-    loadingImage1.style.display = 'block';
-    loadingImage2.style.display = 'none';
-
-    if (document.readyState === 'complete') {
-        // If the page is already loaded, show images in sequence then hide
-        setTimeout(() => {
-            switchToSecondImage();
-            setTimeout(hideLoadingScreen, secondImageDuration);
-        }, firstImageDuration);
-    } else {
-        // If the page is still loading, switch images and wait for load
-        setTimeout(switchToSecondImage, firstImageDuration);
-        window.addEventListener('load', function() {
-            setTimeout(hideLoadingScreen, secondImageDuration);
-        });
-    }
-}
-
-// Handle Resize Events
-function handleResize() {
-    const body = document.body;
-    const menu = document.getElementById('sidebar-menu');
-
-    if (window.innerWidth < 1024 || window.innerWidth > 1365) {
-        body.classList.remove('menu-open');
-    } else if (menu.classList.contains('show')) {
-        body.classList.add('menu-open');
-    }
-}
-
-// Initialize all functionality
-function initializePage() {
-    // Home Link Event Listener
-    const homeLink = document.getElementById('home-link');
-    homeLink.addEventListener('click', function(event) {
-        event.preventDefault();
-        window.location.href = 'index.html'; // Navigate to the home page
-    });
 
     // Handle Resize Events
-    window.addEventListener('resize', handleResize);
-}
+    function handleResize() {
+        const body = document.body;
+        const menu = $('#sidebar-menu');
 
-// Run loading screen and initialization
-handleLoadingScreen();
-initializePage();
+        if (menu) {
+            if (window.innerWidth < 1024 || window.innerWidth > 1365) {
+                body.classList.remove('menu-open');
+            } else if (menu.classList.contains('show')) {
+                body.classList.add('menu-open');
+            }
+        }
+    }
 
-// Additional safety to ensure everything is set up
-document.addEventListener('DOMContentLoaded', initializePage);
+    // Initialize all functionality
+    function initializePage() {
+        const homeLink = $('#home-link');
+        if (homeLink) {
+            homeLink.addEventListener('click', function(event) {
+                event.preventDefault();
+                window.location.href = 'index.html';
+            });
+        }
+
+        window.addEventListener('resize', handleResize);
+    }
+
+    // Run loading screen and initialization
+    handleLoadingScreen();
+    initializePage();
 
     // About Page Image Swap
-    const aboutImages = document.querySelectorAll('.about-image');
-    setInterval(() => {
-        aboutImages.forEach(img => {
-            if (img.src.includes('images/latifa_head_01.png')) {
-                img.src = 'images/latifa_head_02.png';
-            } else {
-                img.src = 'images/latifa_head_01.png';
-            }
-        });
-    }, 300);
+    const aboutImages = $$('.about-image');
+    if (aboutImages.length > 0) {
+        setInterval(() => {
+            aboutImages.forEach(img => {
+                if (img.src.includes('images/latifa_head_01.png')) {
+                    img.src = 'images/latifa_head_02.png';
+                } else {
+                    img.src = 'images/latifa_head_01.png';
+                }
+            });
+        }, 300);
+    }
 
     // Carousel Functionality
-    const carousel = document.querySelector('.carousel-container');
+    const carousel = $('.carousel-container');
     if (carousel) {
         const images = carousel.querySelectorAll('img');
-        const prevButton = document.querySelector('.prev');
-        const nextButton = document.querySelector('.next');
+        const prevButton = $('.prev');
+        const nextButton = $('.next');
         let currentIndex = 0;
 
         function showImage(index) {
@@ -129,25 +147,19 @@ document.addEventListener('DOMContentLoaded', initializePage);
             showImage(currentIndex);
         }
 
-        nextButton.addEventListener('click', showNextImage);
-        prevButton.addEventListener('click', showPrevImage);
+        if (nextButton) nextButton.addEventListener('click', showNextImage);
+        if (prevButton) prevButton.addEventListener('click', showPrevImage);
     }
 
     // Product Info Carousel
-    const productInfos = document.querySelectorAll('.product-info');
-
+    const productInfos = $$('.product-info');
     productInfos.forEach(productInfo => {
         const list = productInfo.querySelector('.list');
         const products = productInfo.querySelectorAll('.product');
         const dotsContainer = productInfo.querySelector('.dots-container');
 
-        // Check if dotsContainer is found
-        if (!dotsContainer) {
-            console.error('Dots container not found!');
-            return;
-        }
+        if (!list || !dotsContainer) return;
 
-        // Create dots for each product
         products.forEach((product, index) => {
             const dot = document.createElement('span');
             dot.classList.add('dot');
@@ -167,199 +179,188 @@ document.addEventListener('DOMContentLoaded', initializePage);
             const activeIndex = Math.round(percent * (products.length - 1));
 
             dots.forEach(dot => dot.classList.remove('active'));
-            dots[activeIndex].classList.add('active');
+            if (dots[activeIndex]) dots[activeIndex].classList.add('active');
 
-            // Remove enlarged class from all products
             products.forEach(product => product.classList.remove('enlarged'));
 
             clearTimeout(scrollTimeout);
             scrollTimeout = setTimeout(() => {
                 const activeProduct = products[activeIndex];
-                activeProduct.classList.add('enlarged');
-            }, 150); // Delay to determine when scrolling stops
+                if (activeProduct) activeProduct.classList.add('enlarged');
+            }, 150);
         });
 
         dots.forEach(dot => {
             dot.addEventListener('click', () => {
                 const index = dot.dataset.index;
-                products[index].scrollIntoView({ behavior: 'smooth', inline: 'center' });
+                if (products[index]) products[index].scrollIntoView({ behavior: 'smooth', inline: 'center' });
             });
         });
     });
 
-// Product Info Carousel for mobile
-document.addEventListener('DOMContentLoaded', function() {
-    const productList = document.querySelector('.list');
-    const dotsContainer = document.querySelector('.dots-container');
-    const productsPerPage = 4;
-    const totalDots = 3; // Set to 3 dots
+    // Product Info Carousel for mobile
+    const productList = $('.list');
+    const dotsContainer = $('.dots-container');
+    if (productList && dotsContainer) {
+        const productsPerPage = 4;
+        const totalDots = 3;
 
-    const products = Array.from(productList.children);
-    const pageCount = Math.ceil(products.length / productsPerPage);
+        const products = Array.from(productList.children);
+        const pageCount = Math.ceil(products.length / productsPerPage);
 
-    // Create 3 dots
-    dotsContainer.innerHTML = ''; // Clear existing dots
-    for (let i = 0; i < totalDots; i++) {
-        const dot = document.createElement('span');
-        dot.classList.add('dot');
-        dotsContainer.appendChild(dot);
+        dotsContainer.innerHTML = '';
+        for (let i = 0; i < totalDots; i++) {
+            const dot = document.createElement('span');
+            dot.classList.add('dot');
+            dotsContainer.appendChild(dot);
+        }
+
+        const dots = Array.from(dotsContainer.children);
+
+        function updateActiveDot() {
+            const scrollPosition = productList.scrollLeft;
+            const pageWidth = productList.offsetWidth;
+            const currentPage = Math.floor(scrollPosition / pageWidth);
+
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === Math.min(currentPage, totalDots - 1));
+            });
+        }
+
+        updateActiveDot();
+        productList.addEventListener('scroll', updateActiveDot);
     }
 
-    const dots = Array.from(dotsContainer.children);
-
-    function updateActiveDot() {
-        const scrollPosition = productList.scrollLeft;
-        const pageWidth = productList.offsetWidth;
-        const currentPage = Math.floor(scrollPosition / pageWidth);
-
-        dots.forEach((dot, index) => {
-            dot.classList.toggle('active', index === Math.min(currentPage, totalDots - 1));
-        });
-    }
-
-    // Initial update
-    updateActiveDot();
-
-    // Update on scroll
-    productList.addEventListener('scroll', updateActiveDot);
-});
-
-// Diary Carousel
-document.addEventListener('DOMContentLoaded', function() {
+    // Diary Carousel
     console.log('Diary carousel script is running');
-    
-    var carouselContainer = document.querySelector('.update-carousel-container');
-    var carouselItems = document.querySelectorAll('.update-carousel-item');
-    var totalItems = carouselItems.length;
-    var currentIndex = 0;
+    const carouselContainer = $('.update-carousel-container');
+    const carouselItems = $$('.update-carousel-item');
+    if (carouselContainer && carouselItems.length > 0) {
+        const totalItems = carouselItems.length;
+        let currentIndex = 0;
 
-    function updateCarousel() {
-        var offset = currentIndex * -100;
-        carouselContainer.style.transform = 'translateX(' + offset + '%)';
-    }
+        function updateCarousel() {
+            const offset = currentIndex * -100;
+            carouselContainer.style.transform = `translateX(${offset}%)`;
+        }
 
-    function moveToIndex(index) {
-        currentIndex = index;
+        function moveToIndex(index) {
+            currentIndex = index;
+            updateCarousel();
+        }
+
+        const nextButton = $('.update-carousel-button.next');
+        const prevButton = $('.update-carousel-button.prev');
+
+        if (nextButton) {
+            nextButton.addEventListener('click', () => moveToIndex((currentIndex + 1) % totalItems));
+        }
+
+        if (prevButton) {
+            prevButton.addEventListener('click', () => moveToIndex((currentIndex - 1 + totalItems) % totalItems));
+        }
+
+        const diaryLinks = $$('.diary-link a');
+        diaryLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetIndex = parseInt(this.getAttribute('data-target'));
+                if (!isNaN(targetIndex) && targetIndex >= 0 && targetIndex < totalItems) {
+                    moveToIndex(targetIndex);
+                }
+            });
+        });
+
+        function isMobile() {
+            return window.innerWidth <= 768;
+        }
+
+        carouselItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                if (isMobile()) {
+                    e.preventDefault();
+                    const img = this.querySelector('img');
+                    if (img) {
+                        const fullscreenDiv = document.createElement('div');
+                        fullscreenDiv.className = 'fullscreen-image';
+                        const fullscreenImg = document.createElement('img');
+                        fullscreenImg.src = img.src;
+                        fullscreenDiv.appendChild(fullscreenImg);
+                        document.body.appendChild(fullscreenDiv);
+
+                        fullscreenDiv.addEventListener('click', () => {
+                            document.body.removeChild(fullscreenDiv);
+                        });
+                    }
+                }
+            });
+        });
+
         updateCarousel();
     }
 
-    document.querySelector('.update-carousel-button.next').addEventListener('click', function() {
-        moveToIndex((currentIndex + 1) % totalItems);
-    });
-
-    document.querySelector('.update-carousel-button.prev').addEventListener('click', function() {
-        moveToIndex((currentIndex - 1 + totalItems) % totalItems);
-    });
-
-    // Linking anchor tags to carousel items
-    var diaryLinks = document.querySelectorAll('.diary-link a');
-    diaryLinks.forEach(function(link) {
-        link.addEventListener('click', function(e) {
-            e.preventDefault(); // Prevent the default link behavior
-            var targetIndex = parseInt(this.getAttribute('data-target'));
-            if (!isNaN(targetIndex) && targetIndex >= 0 && targetIndex < totalItems) {
-                moveToIndex(targetIndex);
-            }
-        });
-    });
-
-    // Handle image clicks for fullscreen view on mobile
-    function isMobile() {
-        return window.innerWidth <= 768;
-    }
-
-    carouselItems.forEach(function(item) {
-        item.addEventListener('click', function(e) {
-            if (isMobile()) {
-                e.preventDefault(); // Prevent default click behavior
-                var img = this.querySelector('img');
-                var fullscreenDiv = document.createElement('div');
-                fullscreenDiv.className = 'fullscreen-image';
-                var fullscreenImg = document.createElement('img');
-                fullscreenImg.src = img.src;
-                fullscreenDiv.appendChild(fullscreenImg);
-                document.body.appendChild(fullscreenDiv);
-
-                fullscreenDiv.addEventListener('click', function() {
-                    document.body.removeChild(fullscreenDiv);
-                });
-            }
-        });
-    });
-
-    // Initialize the carousel
-    updateCarousel();
-});
-
-
-// Side text fade out
-document.addEventListener('DOMContentLoaded', function() {
-    const sideText = document.querySelector('.side-text');
-    const galleryPage = document.querySelector('.gallery-page');
+    // Side text fade out
+    const sideText = $('.side-text');
+    const galleryPage = $('.gallery-page');
     
-    if (!sideText || !galleryPage) {
-        console.error("Side text or gallery page element not found");
-        return;
-    }
+    if (sideText && galleryPage) {
+        let isVisible = true;
+        let fadeOutTimer;
 
-    let isVisible = true;
-    let fadeOutTimer;
-
-    function hideSideText() {
-        sideText.style.opacity = '0';
-        isVisible = false;
-    }
-
-    function showSideText() {
-        sideText.style.opacity = '1';
-        isVisible = true;
-    }
-
-    galleryPage.addEventListener('scroll', function() {
-        clearTimeout(fadeOutTimer);
-
-        if (galleryPage.scrollLeft > 10) { // Small threshold to prevent accidental triggers
-            if (isVisible) {
-                fadeOutTimer = setTimeout(() => {
-                    hideSideText();
-                }); // Adjust this value to control how slowly the text fades out
-            }
-        } else {
-            showSideText();
+        function hideSideText() {
+            sideText.style.opacity = '0';
+            isVisible = false;
         }
-    }, { passive: true });
-});
 
-// Gallery image diaplay
-document.addEventListener('DOMContentLoaded', function() {
-    const galleryContainer = document.querySelector('.gallery-container');
-    const gallery = document.querySelector('.gallery');
-    let isDown = false;
-    let startX;
-    let scrollLeft;
+        function showSideText() {
+            sideText.style.opacity = '1';
+            isVisible = true;
+        }
 
-    galleryContainer.addEventListener('mousedown', (e) => {
-        isDown = true;
-        gallery.classList.add('active');
-        startX = e.pageX - galleryContainer.offsetLeft;
-        scrollLeft = galleryContainer.scrollLeft;
-    });
+        galleryPage.addEventListener('scroll', function() {
+            clearTimeout(fadeOutTimer);
 
-    galleryContainer.addEventListener('mouseleave', () => {
-        isDown = false;
-        gallery.classList.remove('active');
-    });
+            if (galleryPage.scrollLeft > 10) {
+                if (isVisible) {
+                    fadeOutTimer = setTimeout(hideSideText, 200);
+                }
+            } else {
+                showSideText();
+            }
+        }, { passive: true });
+    }
 
-    galleryContainer.addEventListener('mouseup', () => {
-        isDown = false;
-        gallery.classList.remove('active');
-    });
+    // Gallery image display
+    const galleryContainer = $('.gallery-container');
+    const gallery = $('.gallery');
+    if (galleryContainer && gallery) {
+        let isDown = false;
+        let startX;
+        let scrollLeft;
 
-    galleryContainer.addEventListener('mousemove', (e) => {
-        if (!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - galleryContainer.offsetLeft;
-        const walk = (x - startX) * 3; //scroll-fast
-        galleryContainer.scrollLeft = scrollLeft - walk;
-    });
+        galleryContainer.addEventListener('mousedown', (e) => {
+            isDown = true;
+            gallery.classList.add('active');
+            startX = e.pageX - galleryContainer.offsetLeft;
+            scrollLeft = galleryContainer.scrollLeft;
+        });
+
+        galleryContainer.addEventListener('mouseleave', () => {
+            isDown = false;
+            gallery.classList.remove('active');
+        });
+
+        galleryContainer.addEventListener('mouseup', () => {
+            isDown = false;
+            gallery.classList.remove('active');
+        });
+
+        galleryContainer.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - galleryContainer.offsetLeft;
+            const walk = (x - startX) * 3;
+            galleryContainer.scrollLeft = scrollLeft - walk;
+        });
+    }
 });
