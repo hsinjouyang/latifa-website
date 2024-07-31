@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
     productList.addEventListener('scroll', updateActiveDot);
 });
 
-// Diary 3D Carousel
+// Diary Carousel
 document.addEventListener('DOMContentLoaded', function() {
     const carouselContainer = document.querySelector('.update-carousel-container');
     const carouselItems = document.querySelectorAll('.update-carousel-item');
@@ -203,19 +203,35 @@ document.addEventListener('DOMContentLoaded', function() {
         carouselContainer.style.transform = `translateX(${offset}%)`;
     }
 
-    document.querySelector('.update-carousel-button.next').addEventListener('click', () => {
-        currentIndex = (currentIndex + 1) % totalItems;
+    function moveToIndex(index) {
+        currentIndex = index;
         updateCarousel();
+    }
+
+    document.querySelector('.update-carousel-button.next').addEventListener('click', () => {
+        moveToIndex((currentIndex + 1) % totalItems);
     });
 
     document.querySelector('.update-carousel-button.prev').addEventListener('click', () => {
-        currentIndex = (currentIndex - 1 + totalItems) % totalItems;
-        updateCarousel();
+        moveToIndex((currentIndex - 1 + totalItems) % totalItems);
+    });
+
+    // Linking anchor tags to carousel items
+    const diaryLinks = document.querySelectorAll('.diary-link a');
+    diaryLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent the default link behavior
+            const targetIndex = parseInt(this.getAttribute('data-target'));
+            if (!isNaN(targetIndex) && targetIndex >= 0 && targetIndex < totalItems) {
+                moveToIndex(targetIndex);
+            }
+        });
     });
 
     // Initialize the carousel
     updateCarousel();
 });
+
 
 // Side text fade out
 document.addEventListener('DOMContentLoaded', function() {
