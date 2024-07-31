@@ -1727,6 +1727,16 @@ main.shift {
         background-color: #717171;
     }
 
+    .update-carousel {
+        width: 105%;
+        height: auto;
+        align-content: center;
+    }
+
+    .diary-link {
+        font-size: x-small;
+    }
+
     /* Hide scrollbar for cleaner look */
     .list::-webkit-scrollbar {
         display: none;

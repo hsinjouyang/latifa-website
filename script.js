@@ -193,14 +193,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Diary Carousel
 document.addEventListener('DOMContentLoaded', function() {
-    const carouselContainer = document.querySelector('.update-carousel-container');
-    const carouselItems = document.querySelectorAll('.update-carousel-item');
-    const totalItems = carouselItems.length;
-    let currentIndex = 0;
+    console.log('Diary carousel script is running');
+    
+    var carouselContainer = document.querySelector('.update-carousel-container');
+    var carouselItems = document.querySelectorAll('.update-carousel-item');
+    var totalItems = carouselItems.length;
+    var currentIndex = 0;
 
     function updateCarousel() {
-        const offset = currentIndex * -100;
-        carouselContainer.style.transform = `translateX(${offset}%)`;
+        var offset = currentIndex * -100;
+        carouselContainer.style.transform = 'translateX(' + offset + '%)';
     }
 
     function moveToIndex(index) {
@@ -208,20 +210,20 @@ document.addEventListener('DOMContentLoaded', function() {
         updateCarousel();
     }
 
-    document.querySelector('.update-carousel-button.next').addEventListener('click', () => {
+    document.querySelector('.update-carousel-button.next').addEventListener('click', function() {
         moveToIndex((currentIndex + 1) % totalItems);
     });
 
-    document.querySelector('.update-carousel-button.prev').addEventListener('click', () => {
+    document.querySelector('.update-carousel-button.prev').addEventListener('click', function() {
         moveToIndex((currentIndex - 1 + totalItems) % totalItems);
     });
 
     // Linking anchor tags to carousel items
-    const diaryLinks = document.querySelectorAll('.diary-link a');
-    diaryLinks.forEach(link => {
+    var diaryLinks = document.querySelectorAll('.diary-link a');
+    diaryLinks.forEach(function(link) {
         link.addEventListener('click', function(e) {
             e.preventDefault(); // Prevent the default link behavior
-            const targetIndex = parseInt(this.getAttribute('data-target'));
+            var targetIndex = parseInt(this.getAttribute('data-target'));
             if (!isNaN(targetIndex) && targetIndex >= 0 && targetIndex < totalItems) {
                 moveToIndex(targetIndex);
             }
