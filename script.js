@@ -230,6 +230,30 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Handle image clicks for fullscreen view on mobile
+    function isMobile() {
+        return window.innerWidth <= 768;
+    }
+
+    carouselItems.forEach(function(item) {
+        item.addEventListener('click', function(e) {
+            if (isMobile()) {
+                e.preventDefault(); // Prevent default click behavior
+                var img = this.querySelector('img');
+                var fullscreenDiv = document.createElement('div');
+                fullscreenDiv.className = 'fullscreen-image';
+                var fullscreenImg = document.createElement('img');
+                fullscreenImg.src = img.src;
+                fullscreenDiv.appendChild(fullscreenImg);
+                document.body.appendChild(fullscreenDiv);
+
+                fullscreenDiv.addEventListener('click', function() {
+                    document.body.removeChild(fullscreenDiv);
+                });
+            }
+        });
+    });
+
     // Initialize the carousel
     updateCarousel();
 });
