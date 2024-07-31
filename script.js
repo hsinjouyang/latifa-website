@@ -54,25 +54,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, 300);
 
-    // Frenchie Prints Animation
-    const prints = document.querySelectorAll('.frenchie_prints img');
-    let currentIndex = prints.length - 1;
-
-    function showNextPrint() {
-        if (prints.length === 0) return; // Ensure there are prints to show
-        prints[currentIndex].style.opacity = '1';
-        setTimeout(() => {
-            prints[currentIndex].style.opacity = '0';
-            currentIndex--;
-            if (currentIndex < 0) {
-                currentIndex = prints.length - 1;
-            }
-            showNextPrint();
-        }, 300);
-    }
-
-    showNextPrint();
-
     // Carousel Functionality
     const carousel = document.querySelector('.carousel-container');
     if (carousel) {

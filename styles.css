@@ -282,48 +282,6 @@ main.shift {
     margin: 25px;
 }
 
-/* Frenchie section styles */
-.frenchie {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 15%;
-}
-
-.about_frenchie {
-    width: 100%;
-    height: auto;
-    max-width: 325px;
-    margin-top: 6%;
-    margin-left: 55%;
-    margin-bottom: -20%;
-}
-
-.frenchie_prints {
-    position: relative;
-    width: 80%;
-    height: auto;
-}
-
-.print1, .print2, .print3, .print4, .print5, .print6 {
-    position: relative;
-    height: auto;
-}
-
-.print1 { width: 100px; top: -200px; left: -30px; }
-.print2 { width: 80px; top: -170px; left: -50px; }
-.print3 { width: 80px; top: -60px; left: -120px; }
-.print4 { width: 60px; top: -30px; left: -150px; }
-.print5 { width: 70px; top: -10px; left: -165px; }
-.print6 { width: 60px; top: 0px; left: -170px; }
-
-.frenchie_prints img {
-    position: relative;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
 /* Additional info section styles */
 .addition-info {
     font-family: 'Gloria Hallelujah';
