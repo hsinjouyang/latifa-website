@@ -1,6 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOMContentLoaded event fired');
+
     // Common functionality for all pages
     function commonInit() {
+        console.log('Common initialization started');
+
         // Menu Toggle Function
         function toggleMenu() {
             const menu = document.getElementById('sidebar-menu');
@@ -46,10 +50,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.location.href = 'index.html';
             });
         }
+
+        console.log('Common initialization completed');
     }
 
     // Loading Screen for all pages
     function handleLoadingScreen() {
+        console.log('Loading screen handler started');
         const loadingScreen = document.getElementById('loading-screen');
         const loadingImage1 = document.getElementById('loading-image-1');
         const loadingImage2 = document.getElementById('loading-image-2');
@@ -60,15 +67,19 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        console.log('Loading screen elements found');
+
         const firstImageDuration = 500; // 0.5 seconds
-        const secondImageDuration = 1000; // 1 seconds
+        const secondImageDuration = 500; // 0.5 seconds
 
         function switchToSecondImage() {
+            console.log('Switching to second image');
             loadingImage1.style.display = 'none';
             loadingImage2.style.display = 'block';
         }
 
         function hideLoadingScreen() {
+            console.log('Hiding loading screen');
             loadingScreen.style.opacity = '0';
             setTimeout(() => {
                 loadingScreen.style.display = 'none';
@@ -86,11 +97,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function showContent() {
-        document.body.style.visibility = 'visible';
+        console.log('Showing content');
+        document.body.classList.add('content-loaded');
     }
 
     // Home page specific functionality
     function initHomePage() {
+        console.log('Initializing home page');
+
         // About Page Image Swap
         const aboutImages = document.querySelectorAll('.about-image');
         if (aboutImages.length > 0) {
@@ -155,6 +169,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // About page specific functionality
     function initAboutPage() {
+        console.log('Initializing about page');
+
         // Carousel Functionality
         const carousel = document.querySelector('.carousel-container');
         if (carousel) {
@@ -252,6 +268,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Gallery page specific functionality
     function initGalleryPage() {
+        console.log('Initializing gallery page');
+
         // Gallery image display
         const galleryContainer = document.querySelector('.gallery-container');
         const gallery = document.querySelector('.gallery');
@@ -319,9 +337,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Run common initialization
+    console.log('Running common initialization');
     commonInit();
 
     // Determine which page we're on and run the appropriate init function
+    console.log('Current page id:', document.body.id);
     const currentPage = document.body.id || '';
     switch (currentPage) {
         case 'home-page':
@@ -338,5 +358,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Always run the loading screen
+    console.log('Starting loading screen');
     handleLoadingScreen();
 });
