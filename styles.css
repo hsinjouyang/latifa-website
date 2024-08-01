@@ -696,7 +696,7 @@ main.shift {
     cursor: pointer;
 }
 
-
+/* Gallery page layout */
 .gallery-page {
     overflow-x: auto;
     overflow-y: hidden;
@@ -915,24 +915,6 @@ main.shift {
         height: auto;
     }
 
-    .frenchie_prints {
-        position: relative;
-        width: 100%;
-        height: auto;
-    }
-
-    .frenchie_prints img {
-        transform: scale(0.8);
-        position: absolute;
-    }
-
-    .print1 { top: 10px; left: 10px; }
-    .print2 { top: 60px; left: 50px; }
-    .print3 { top: 110px; left: 90px; }
-    .print4 { top: 160px; left: 130px; }
-    .print5 { top: 210px; left: 170px; }
-    .print6 { top: 260px; left: 210px; }
-
     .addition-info h2 {
         font-size: 1.2em;
     }
@@ -950,6 +932,10 @@ main.shift {
 
     .toy-wrapper p {
         font-size: 0.9em;
+    }
+
+    .dots-container {
+        gap: 15px;
     }
 
     .diary-updates {
@@ -1403,6 +1389,10 @@ main.shift {
     .next {
         right: 10px;
     }
+
+    .dots-container {
+        gap: 15px;
+    }
 }
 
 
@@ -1570,42 +1560,6 @@ main.shift {
         font-size: 0.7em;
         margin-top: 15px;
         text-align: center;
-    }
-
-    .frenchie img {
-        max-width: 80%;
-        width: 90%;
-        height: auto;
-    }
-
-    .print1 {
-        width: 60px !important;        
-        transform: translate(-45px, -40px);
-    }
-
-    .print2 {
-        width: 50px !important;
-        transform: translate(-55px, -35px);
-    }
-
-    .print3 {
-        width: 50px !important;
-        transform: translate(-50px, -30px);
-    }
-
-    .print4 {
-        width: 50px !important;        
-        transform: translate(-45px, -27px);    
-    }
-
-    .print5 {
-        width: 35px !important;
-        transform: translate(-40px, -20px);
-    }
-
-    .print6 {
-        width: 30px !important;
-        transform: translate(-20px, -30px);
     }
 
     .addition-info {

@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         console.log('Loading screen elements found');
 
-        const firstImageDuration = 500; // 0.5 seconds
+        const firstImageDuration = 1000; // 1 seconds
         const secondImageDuration = 500; // 0.5 seconds
 
         function switchToSecondImage() {
@@ -99,72 +99,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function showContent() {
         console.log('Showing content');
         document.body.classList.add('content-loaded');
-    }
-
-    // Home page specific functionality
-    function initHomePage() {
-        console.log('Initializing home page');
-
-        // About Page Image Swap
-        const aboutImages = document.querySelectorAll('.about-image');
-        if (aboutImages.length > 0) {
-            setInterval(() => {
-                aboutImages.forEach(img => {
-                    if (img.src.includes('images/latifa_head_01.png')) {
-                        img.src = 'images/latifa_head_02.png';
-                    } else {
-                        img.src = 'images/latifa_head_01.png';
-                    }
-                });
-            }, 300);
-        }
-
-        // Product Info Carousel
-        const productInfos = document.querySelectorAll('.product-info');
-        productInfos.forEach(productInfo => {
-            const list = productInfo.querySelector('.list');
-            const products = productInfo.querySelectorAll('.product');
-            const dotsContainer = productInfo.querySelector('.dots-container');
-
-            if (!list || !dotsContainer) return;
-
-            products.forEach((product, index) => {
-                const dot = document.createElement('span');
-                dot.classList.add('dot');
-                if (index === 0) dot.classList.add('active');
-                dot.dataset.index = index;
-                dotsContainer.appendChild(dot);
-            });
-
-            const dots = dotsContainer.querySelectorAll('.dot');
-
-            let scrollTimeout;
-            list.addEventListener('scroll', () => {
-                const scrollLeft = list.scrollLeft;
-                const width = list.scrollWidth - list.clientWidth;
-                const percent = scrollLeft / width;
-
-                const activeIndex = Math.round(percent * (products.length - 1));
-
-                dots.forEach(dot => dot.classList.remove('active'));
-                if (dots[activeIndex]) dots[activeIndex].classList.add('active');
-
-                products.forEach(product => product.classList.remove('enlarged'));
-
-                clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(() => {
-                    const activeProduct = products[activeIndex];
-                    if (activeProduct) activeProduct.classList.add('enlarged');
-                }, 150);
-            });
-
-            dots.forEach(dot => {
-                dot.addEventListener('click', () => {
-                    const index = dot.dataset.index;
-                    if (products[index]) products[index].scrollIntoView({ behavior: 'smooth', inline: 'center' });
-                });
-            });
-        });
     }
 
     // About page specific functionality
@@ -264,76 +198,86 @@ document.addEventListener('DOMContentLoaded', function() {
 
             updateCarousel();
         }
-    }
 
-    // Gallery page specific functionality
-    function initGalleryPage() {
-        console.log('Initializing gallery page');
+        // Product Info Carousel with Dots
+        const productInfos = document.querySelectorAll('.product-info');
+        productInfos.forEach(productInfo => {
+            const list = productInfo.querySelector('.list');
+            const products = productInfo.querySelectorAll('.product');
+            const dotsContainer = productInfo.querySelector('.dots-container');
 
-        // Gallery image display
-        const galleryContainer = document.querySelector('.gallery-container');
-        const gallery = document.querySelector('.gallery');
-        if (galleryContainer && gallery) {
-            let isDown = false;
-            let startX;
-            let scrollLeft;
-
-            galleryContainer.addEventListener('mousedown', (e) => {
-                isDown = true;
-                gallery.classList.add('active');
-                startX = e.pageX - galleryContainer.offsetLeft;
-                scrollLeft = galleryContainer.scrollLeft;
-            });
-
-            galleryContainer.addEventListener('mouseleave', () => {
-                isDown = false;
-                gallery.classList.remove('active');
-            });
-
-            galleryContainer.addEventListener('mouseup', () => {
-                isDown = false;
-                gallery.classList.remove('active');
-            });
-
-            galleryContainer.addEventListener('mousemove', (e) => {
-                if (!isDown) return;
-                e.preventDefault();
-                const x = e.pageX - galleryContainer.offsetLeft;
-                const walk = (x - startX) * 3;
-                galleryContainer.scrollLeft = scrollLeft - walk;
-            });
-        }
-
-        // Side text fade out
-        const sideText = document.querySelector('.side-text');
-        const galleryPage = document.querySelector('.gallery-page');
-        
-        if (sideText && galleryPage) {
-            let isVisible = true;
-            let fadeOutTimer;
-
-            function hideSideText() {
-                sideText.style.opacity = '0';
-                isVisible = false;
+            if (!list || !dotsContainer) {
+                console.log('List or dots container not found');
+                return;
             }
 
-            function showSideText() {
-                sideText.style.opacity = '1';
-                isVisible = true;
-            }
+            console.log(`Found ${products.length} products`);
 
-            galleryPage.addEventListener('scroll', function() {
-                clearTimeout(fadeOutTimer);
+            // Calculate number of products per group based on screen width
+            let productsPerGroup = window.innerWidth <= 768 ? 4 : 3; // 2x2 on mobile, 3x1 on desktop
+            let numberOfGroups = Math.ceil(products.length / productsPerGroup);
 
-                if (galleryPage.scrollLeft > 10) {
-                    if (isVisible) {
-                        fadeOutTimer = setTimeout(hideSideText, 200);
-                    }
-                } else {
-                    showSideText();
+            function updateDots() {
+                // Clear existing dots
+                dotsContainer.innerHTML = '';
+
+                // Create dots for each group
+                for (let i = 0; i < numberOfGroups; i++) {
+                    const dot = document.createElement('span');
+                    dot.classList.add('dot');
+                    if (i === 0) dot.classList.add('active');
+                    dot.dataset.index = i;
+                    dotsContainer.appendChild(dot);
                 }
-            }, { passive: true });
-        }
+
+                console.log(`Created ${numberOfGroups} dots`);
+            }
+
+            updateDots();
+
+            let scrollTimeout;
+            list.addEventListener('scroll', () => {
+                const scrollLeft = list.scrollLeft;
+                const width = list.scrollWidth - list.clientWidth;
+                const percent = scrollLeft / width;
+
+                const activeGroupIndex = Math.round(percent * (numberOfGroups - 1));
+
+                const dots = dotsContainer.querySelectorAll('.dot');
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === activeGroupIndex);
+                });
+
+                products.forEach(product => product.classList.remove('enlarged'));
+
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    const activeProductIndex = activeGroupIndex * productsPerGroup;
+                    const activeProduct = products[activeProductIndex];
+                    if (activeProduct) activeProduct.classList.add('enlarged');
+                }, 150);
+            });
+
+            dotsContainer.addEventListener('click', (e) => {
+                if (e.target.classList.contains('dot')) {
+                    const groupIndex = parseInt(e.target.dataset.index);
+                    if (!isNaN(groupIndex)) {
+                        const scrollPosition = (groupIndex * productsPerGroup * list.scrollWidth) / products.length;
+                        list.scrollTo({ left: scrollPosition, behavior: 'smooth' });
+                    }
+                }
+            });
+
+            // Update dots on window resize
+            window.addEventListener('resize', () => {
+                const newProductsPerGroup = window.innerWidth <= 768 ? 4 : 3;
+                if (newProductsPerGroup !== productsPerGroup) {
+                    productsPerGroup = newProductsPerGroup;
+                    numberOfGroups = Math.ceil(products.length / productsPerGroup);
+                    updateDots();
+                }
+            });
+        });
     }
 
     // Run common initialization
@@ -345,13 +289,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const currentPage = document.body.id || '';
     switch (currentPage) {
         case 'home-page':
-            initHomePage();
+            // Add home page specific initialization if needed
             break;
         case 'about-page':
             initAboutPage();
             break;
         case 'gallery-page':
-            initGalleryPage();
+            // Add gallery page specific initialization if needed
             break;
         default:
             console.log('Unknown page');
