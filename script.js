@@ -48,49 +48,49 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Home page specific functionality
-    function initHomePage() {
-        // Loading Screen 
-        function handleLoadingScreen() {
-            const loadingScreen = document.getElementById('loading-screen');
-            const loadingImage1 = document.getElementById('loading-image-1');
-            const loadingImage2 = document.getElementById('loading-image-2');
+    // Loading Screen for all pages
+    function handleLoadingScreen() {
+        const loadingScreen = document.getElementById('loading-screen');
+        const loadingImage1 = document.getElementById('loading-image-1');
+        const loadingImage2 = document.getElementById('loading-image-2');
 
-            if (!loadingScreen || !loadingImage1 || !loadingImage2) return;
-
-            const firstImageDuration = 2000;
-            const secondImageDuration = 3000;
-
-            function switchToSecondImage() {
-                loadingImage1.style.display = 'none';
-                loadingImage2.style.display = 'block';
-            }
-
-            function hideLoadingScreen() {
-                loadingScreen.style.opacity = '0';
-                setTimeout(() => {
-                    loadingScreen.style.display = 'none';
-                }, 500);
-            }
-
-            loadingImage1.style.display = 'block';
-            loadingImage2.style.display = 'none';
-
-            if (document.readyState === 'complete') {
-                setTimeout(() => {
-                    switchToSecondImage();
-                    setTimeout(hideLoadingScreen, secondImageDuration);
-                }, firstImageDuration);
-            } else {
-                setTimeout(switchToSecondImage, firstImageDuration);
-                window.addEventListener('load', function() {
-                    setTimeout(hideLoadingScreen, secondImageDuration);
-                });
-            }
+        if (!loadingScreen || !loadingImage1 || !loadingImage2) {
+            console.log('Loading screen elements not found, showing content immediately');
+            showContent();
+            return;
         }
 
-        handleLoadingScreen();
+        const firstImageDuration = 500; // 0.5 seconds
+        const secondImageDuration = 1000; // 1 seconds
 
+        function switchToSecondImage() {
+            loadingImage1.style.display = 'none';
+            loadingImage2.style.display = 'block';
+        }
+
+        function hideLoadingScreen() {
+            loadingScreen.style.opacity = '0';
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+                showContent();
+            }, 500);
+        }
+
+        loadingImage1.style.display = 'block';
+        loadingImage2.style.display = 'none';
+
+        setTimeout(() => {
+            switchToSecondImage();
+            setTimeout(hideLoadingScreen, secondImageDuration);
+        }, firstImageDuration);
+    }
+
+    function showContent() {
+        document.body.style.visibility = 'visible';
+    }
+
+    // Home page specific functionality
+    function initHomePage() {
         // About Page Image Swap
         const aboutImages = document.querySelectorAll('.about-image');
         if (aboutImages.length > 0) {
@@ -322,11 +322,21 @@ document.addEventListener('DOMContentLoaded', function() {
     commonInit();
 
     // Determine which page we're on and run the appropriate init function
-    if (document.querySelector('.intro')) {
-        initHomePage();
-    } else if (document.querySelector('.update-carousel-container')) {
-        initAboutPage();
-    } else if (document.querySelector('.gallery-container')) {
-        initGalleryPage();
+    const currentPage = document.body.id || '';
+    switch (currentPage) {
+        case 'home-page':
+            initHomePage();
+            break;
+        case 'about-page':
+            initAboutPage();
+            break;
+        case 'gallery-page':
+            initGalleryPage();
+            break;
+        default:
+            console.log('Unknown page');
     }
+
+    // Always run the loading screen
+    handleLoadingScreen();
 });
