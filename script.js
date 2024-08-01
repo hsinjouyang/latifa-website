@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         console.log('Loading screen elements found');
 
-        const firstImageDuration = 1000; // 1 seconds
+        const firstImageDuration = 500; // 0.5 seconds
         const secondImageDuration = 500; // 0.5 seconds
 
         function switchToSecondImage() {
@@ -101,6 +101,43 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.classList.add('content-loaded');
     }
 
+    // Scroll Animation Function
+    function handleScrollAnimation() {
+        const elements = document.querySelectorAll('.fade-in');
+        const windowHeight = window.innerHeight;
+
+        elements.forEach((element) => {
+            const elementTop = element.getBoundingClientRect().top;
+            const elementVisible = 150;
+
+            if (elementTop < windowHeight - elementVisible) {
+                const delay = element.dataset.delay || 0;
+                setTimeout(() => {
+                    element.classList.add('appear');
+                }, delay);
+            }
+        });
+    }
+
+    // Home page specific functionality
+    function initHomePage() {
+        console.log('Initializing home page');
+
+        // About Page Image Swap
+        const aboutImages = document.querySelectorAll('.about-image');
+        if (aboutImages.length > 0) {
+            setInterval(() => {
+                aboutImages.forEach(img => {
+                    if (img.src.includes('images/latifa_head_01.png')) {
+                        img.src = 'images/latifa_head_02.png';
+                    } else {
+                        img.src = 'images/latifa_head_01.png';
+                    }
+                });
+            }, 300);
+        }
+    }
+
     // About page specific functionality
     function initAboutPage() {
         console.log('Initializing about page');
@@ -109,8 +146,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const carousel = document.querySelector('.carousel-container');
         if (carousel) {
             const images = carousel.querySelectorAll('img');
-            const prevButton = document.querySelector('.prev');
-            const nextButton = document.querySelector('.next');
+            const prevButton = document.querySelector('.carousel .prev');
+            const nextButton = document.querySelector('.carousel .next');
             let currentIndex = 0;
 
             function showImage(index) {
@@ -132,11 +169,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Diary Carousel
-        console.log('Diary carousel script is running');
         const carouselContainer = document.querySelector('.update-carousel-container');
         const carouselItems = document.querySelectorAll('.update-carousel-item');
+        const prevButton = document.querySelector('.update-carousel-button.prev');
+        const nextButton = document.querySelector('.update-carousel-button.next');
+        
         if (carouselContainer && carouselItems.length > 0) {
-            const totalItems = carouselItems.length;
             let currentIndex = 0;
 
             function updateCarousel() {
@@ -149,49 +187,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 updateCarousel();
             }
 
-            const nextButton = document.querySelector('.update-carousel-button.next');
-            const prevButton = document.querySelector('.update-carousel-button.prev');
-
             if (nextButton) {
-                nextButton.addEventListener('click', () => moveToIndex((currentIndex + 1) % totalItems));
+                nextButton.addEventListener('click', () => {
+                    currentIndex = (currentIndex + 1) % carouselItems.length;
+                    updateCarousel();
+                });
             }
 
             if (prevButton) {
-                prevButton.addEventListener('click', () => moveToIndex((currentIndex - 1 + totalItems) % totalItems));
+                prevButton.addEventListener('click', () => {
+                    currentIndex = (currentIndex - 1 + carouselItems.length) % carouselItems.length;
+                    updateCarousel();
+                });
             }
 
+            // Diary link functionality
             const diaryLinks = document.querySelectorAll('.diary-link a');
             diaryLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     const targetIndex = parseInt(this.getAttribute('data-target'));
-                    if (!isNaN(targetIndex) && targetIndex >= 0 && targetIndex < totalItems) {
+                    if (!isNaN(targetIndex) && targetIndex >= 0 && targetIndex < carouselItems.length) {
                         moveToIndex(targetIndex);
-                    }
-                });
-            });
-
-            function isMobile() {
-                return window.innerWidth <= 768;
-            }
-
-            carouselItems.forEach(item => {
-                item.addEventListener('click', function(e) {
-                    if (isMobile()) {
-                        e.preventDefault();
-                        const img = this.querySelector('img');
-                        if (img) {
-                            const fullscreenDiv = document.createElement('div');
-                            fullscreenDiv.className = 'fullscreen-image';
-                            const fullscreenImg = document.createElement('img');
-                            fullscreenImg.src = img.src;
-                            fullscreenDiv.appendChild(fullscreenImg);
-                            document.body.appendChild(fullscreenDiv);
-
-                            fullscreenDiv.addEventListener('click', () => {
-                                document.body.removeChild(fullscreenDiv);
-                            });
-                        }
                     }
                 });
             });
@@ -235,7 +252,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
             updateDots();
 
-            let scrollTimeout;
             list.addEventListener('scroll', () => {
                 const scrollLeft = list.scrollLeft;
                 const width = list.scrollWidth - list.clientWidth;
@@ -247,15 +263,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 dots.forEach((dot, index) => {
                     dot.classList.toggle('active', index === activeGroupIndex);
                 });
-
-                products.forEach(product => product.classList.remove('enlarged'));
-
-                clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(() => {
-                    const activeProductIndex = activeGroupIndex * productsPerGroup;
-                    const activeProduct = products[activeProductIndex];
-                    if (activeProduct) activeProduct.classList.add('enlarged');
-                }, 150);
             });
 
             dotsContainer.addEventListener('click', (e) => {
@@ -289,7 +296,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const currentPage = document.body.id || '';
     switch (currentPage) {
         case 'home-page':
-            // Add home page specific initialization if needed
+            initHomePage();
             break;
         case 'about-page':
             initAboutPage();
@@ -304,4 +311,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Always run the loading screen
     console.log('Starting loading screen');
     handleLoadingScreen();
+
+    // Add event listener for scroll
+    window.addEventListener('scroll', handleScrollAnimation);
+
+    // Initial check for elements in view on page load
+    handleScrollAnimation();
 });

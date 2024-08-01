@@ -1,4 +1,16 @@
 /* Base styles (mobile-first) */
+/* Fade effect */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+  
+  .fade-in.appear {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 html, body {
     margin: 0;
     padding: 0;
@@ -672,9 +684,9 @@ main.shift {
 }
 
 .diary-link {
-    margin-top: 10px;
     text-align: left;
     padding-left: 13%;
+    margin-top: 20px;
 }
 
 .diary-link p {
@@ -683,11 +695,14 @@ main.shift {
 }
 
 .diary-link a {
+    display: inline-block;
     color: #040404;
     text-decoration: none;
     font-size: 16px;
     padding: 5px 10px;
     border-radius: 5px;
+    margin: 5px 0;
+    text-decoration: none;
     transition: background-color 0.3s, color 0.3s;
 }
 
@@ -1783,8 +1798,8 @@ main.shift {
         object-fit: contain;
     }
 
-    .diary-link {
-        font-size:xx-small;
+    .diary-link p {
+        font-size: 10px;
     }
 
     /* Hide scrollbar for cleaner look */
