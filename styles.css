@@ -1,12 +1,12 @@
 /* Base styles (mobile-first) */
-/* Fade effect */
-.fade-in {
+/* Pop up effect */
+.pop-up {
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    transform: translateY(50px);
+    transition: opacity 0.01s, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-  
-  .fade-in.appear {
+
+.pop-up.appear {
     opacity: 1;
     transform: translateY(0);
 }
@@ -41,7 +41,7 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 9999;
-    transition: opacity 0.5s ease-out;
+    transition: opacity 0.3s ease-out;
 }
 
 .loading-content {
@@ -135,35 +135,84 @@ header h1 {
 }
 
 /* Navigation styles */
-nav {
+.menu-container {
     position: absolute;
-    top: 40px;
-    left: 25px;
+    top: 55px;
+    left: 35px;
 }
 
 .dropbtn {
     background-color: transparent;
     color: #000;
-    font-size: 25px;
-    font-weight: 100;
     border: none;
     cursor: pointer;
-    padding: 0;
+    padding: 8px;
     position: fixed;
     z-index: 2;
+    display: flex;
+    align-items: center;
+}
+
+.button-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hamburger-icon {
+    width: 3px;
+    height: 1px;
+    font-size: 3px;
+}
+
+.hamburger-icon span {
+    display: block;
+    position: absolute;
+    height: 1.5px;
+    width: 100%;
+    background: #000;
+    border-radius: 0.5px;
+    opacity: 1;
+    left: 0;
+    transform: rotate(0deg);
+    transition: .25s ease-in-out;
+}
+
+.hamburger-icon span:nth-child(1) {
+    top: 0px;
+}
+
+.hamburger-icon span:nth-child(2) {
+    top: 6px;
+}
+
+.hamburger-icon span:nth-child(3) {
+    top: 12px;
+}
+
+.dropbtn.open .hamburger-icon span:nth-child(1) {
+    top: 6px;
+    transform: rotate(135deg);
+}
+
+.dropbtn.open .hamburger-icon span:nth-child(2) {
+    opacity: 0;
+    left: -60px;
+}
+
+.dropbtn.open .hamburger-icon span:nth-child(3) {
+    top: 6px;
+    transform: rotate(-135deg);
 }
 
 .dropdown-content {
-    position: fixed;
-    top: 0;
+    position: absolute;
+    top: 100%;
     left: -250px;
-    height: 100%;
     width: 250px;
     background-color: #ede9e9;
-    overflow-x: hidden;
-    transition: left 0.7s;
-    padding-top: 105px;
-    z-index: 1;
+    transition: left 0.3s ease;
+    z-index: 1000;
 }
 
 .dropdown-content a {
@@ -806,14 +855,58 @@ main.shift {
     header h1 {
         font-size: 20px;
     }
-
-    .dropdown-content {
-        width: 250px;
-        padding-top: 90px;
+    
+    .menu-container {
+        position: relative;
     }
 
     .dropbtn {
+        background-color: transparent;
+        color: #000;
         font-size: 22px;
+        font-weight: 100;
+        border: none;
+        cursor: pointer;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1001;
+    }
+
+    .hamburger-icon {
+        font-size: 25px;
+        margin-right: 5px;
+    }
+
+    .dropdown-content {
+        position: fixed;
+        top: 0;
+        left: -250px;
+        width: 250px;
+        height: 100vh;
+        background-color: #ede9e9;
+        transition: left 0.3s ease;
+        z-index: 1000;
+        overflow-y: auto;
+        padding-top: 90px;
+    }
+
+    .dropdown-content a {
+        padding: 15px 20px 15px 32px;
+        text-decoration: none;
+        text-align: left;
+        font-size: 13px;
+        color: #000;
+        display: block;
+        transition: background-color 0.3s;
+    }
+    
+    .dropdown-content a:hover {
+        font-weight: bold;
+        background-color: transparent;
     }
 
     .instagram-button {
@@ -963,6 +1056,60 @@ main.shift {
 
 /* Desktop styles */
 @media screen and (min-width: 1024px) and (max-width: 1365px) {
+    
+    .menu-container {
+        position: relative;
+    }
+
+    .dropbtn {
+        background-color: transparent;
+        color: #000;
+        font-size: 22px;
+        font-weight: 100;
+        border: none;
+        cursor: pointer;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1001;
+    }
+
+    .hamburger-icon {
+        font-size: 25px;
+        margin-right: 5px;
+    }
+
+    .dropdown-content {
+        position: fixed;
+        top: 0;
+        left: -250px;
+        width: 250px;
+        height: 100vh;
+        background-color: #ede9e9;
+        transition: left 0.3s ease;
+        z-index: 1000;
+        overflow-y: auto;
+        padding-top: 90px;
+    }
+
+    .dropdown-content a {
+        padding: 15px 20px 15px 32px;
+        text-decoration: none;
+        text-align: left;
+        font-size: 13px;
+        color: #000;
+        display: block;
+        transition: background-color 0.3s;
+    }
+    
+    .dropdown-content a:hover {
+        font-weight: bold;
+        background-color: transparent;
+    }
+
     .dropdown-content {
         width: 250px;
         height: 100%;
@@ -1193,6 +1340,60 @@ main.shift {
 /* Large desktop styles */
 @media screen and (min-width: 1366px) {
     /* Styles for large desktops are the same as for regular desktops */
+
+    .menu-container {
+        position: relative;
+    }
+
+    .dropbtn {
+        background-color: transparent;
+        color: #000;
+        font-size: 22px;
+        font-weight: 100;
+        border: none;
+        cursor: pointer;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1001;
+    }
+
+    .hamburger-icon {
+        font-size: 25px;
+        margin-right: 5px;
+    }
+
+    .dropdown-content {
+        position: fixed;
+        top: 0;
+        left: -250px;
+        width: 250px;
+        height: 100vh;
+        background-color: #ede9e9;
+        transition: left 0.3s ease;
+        z-index: 1000;
+        overflow-y: auto;
+        padding-top: 90px;
+    }
+
+    .dropdown-content a {
+        padding: 15px 20px 15px 32px;
+        text-decoration: none;
+        text-align: left;
+        font-size: 13px;
+        color: #000;
+        display: block;
+        transition: background-color 0.3s;
+    }
+    
+    .dropdown-content a:hover {
+        font-weight: bold;
+        background-color: transparent;
+    }
+
     .dropdown-content {
         width: 250px;
         height: 100%;
@@ -1798,8 +1999,8 @@ main.shift {
         object-fit: contain;
     }
 
-    .diary-link p {
-        font-size: 10px;
+    .diary-link a {
+        font-size: 12px; 
     }
 
     /* Hide scrollbar for cleaner look */

@@ -21,17 +21,23 @@
         <header>
             <div id="top"></div>
             <a href="index.html" id="home-link"><h1>LATIFA</h1></a>
-            <nav>
-                <button class="dropbtn" onclick="toggleMenu()">&#9776;</button>
+            <nav class="menu-container">
+                <button class="dropbtn" aria-label="Toggle menu">
+                    <div class="hamburger-icon">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </button>
+                <div class="dropdown-content" id="sidebar-menu">
+                    <a href="index.html">HOME</a>
+                    <a href="about.html">ABOUT</a>
+                    <a href="gallery.html">GALLERY</a>
+                </div>
             </nav>
         </header>
-        <div class="dropdown-content" id="sidebar-menu">
-            <a href="index.html">HOME</a>
-            <a href="about.html">ABOUT</a>
-            <a href="gallery.html">GALLERY</a>
-        </div>
         <main>
-            <section class="intro fade-in">
+            <section class="intro pop-up">
                 <h2><span class="big">Who's</span><br> a good girl?</h2>
                 <a href="https://www.instagram.com/_frenchie.latifa_/" class="instagram-button" target="_blank" aria-label="Follow on Instagram">
                     <i class="fab fa-instagram"></i>
@@ -41,7 +47,7 @@
                 </div>
             </section>
 
-            <section class="details fade-in" data-delay="200">
+            <section class="details pop-up" data-delay="200">
                 <div class="puppy-profile">
                     <img src="images/latifa_toast.png" alt="I'm still loading with my favorite toast" class="puppy-profile-image">
                     <div class="puppy-stats">
@@ -53,7 +59,7 @@
                 </div>
             </section>
 
-            <section class="about fade-in" data-delay="400">
+            <section class="about pop-up" data-delay="400">
                 <h2>ABOUT ME</h2>
                 <div class="about-content">
                     <img src="images/latifa_head_01.png" alt="This is my big head" style="width: 250px; height:auto" class="about-image about-image-01">

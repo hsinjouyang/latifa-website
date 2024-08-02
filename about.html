@@ -19,18 +19,24 @@
     <header>
         <div id="top"></div>
         <a href="index.html" id="home-link"><h1>LATIFA</h1></a>
-        <nav>
-            <button class="dropbtn" onclick="toggleMenu()">&#9776;</button>
+        <nav class="menu-container">
+            <button class="dropbtn" aria-label="Toggle menu">
+                <div class="hamburger-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+            <div class="dropdown-content" id="sidebar-menu">
+                <a href="index.html">HOME</a>
+                <a href="about.html">ABOUT</a>
+                <a href="gallery.html">GALLERY</a>
+            </div>
         </nav>
     </header>
-    <div class="dropdown-content" id="sidebar-menu">
-        <a href="index.html">HOME</a>
-        <a href="about.html">ABOUT</a>
-        <a href="gallery.html">GALLERY</a>
-    </div>
 
     <main>
-        <div class="addition-info fade-in">
+        <div class="addition-info pop-up">
             <h2>Good Girl Style</h2>
             <div class="carousel">
                 <div class="carousel-container">
@@ -43,7 +49,7 @@
                 <button class="carousel-button prev">&#10094;</button>
                 <button class="carousel-button next">&#10095;</button>
             </div>
-            <div class="product-info fade-in" data-delay="200">
+            <div class="product-info pop-up" data-delay="200">
                 <h2>Latifa Can't Live Without:</h2>
                 <div class="product-list">
                     <ul class="list">
@@ -100,11 +106,11 @@
                 </div>
             </div>
         </div>
-        <div class="about-section fade-in" data-delay="400">
+        <div class="about-section pop-up" data-delay="400">
             <h2>AND<br>A Good Girl Must Have:</h2>
             <img src="images/about_latifa.png" alt="About Latifa" class="about-section-image">
         </div>
-        <div class="update fade-in" data-delay="600">
+        <div class="update pop-up" data-delay="600">
             <h2>Latifa's Diary</h2>
             <div class="update-carousel">
                 <div class="update-carousel-container">
@@ -132,7 +138,7 @@
             <button class="update-carousel-button next">Next</button>
         </div>
         <div>
-            <div class="diary-link fade-in" data-delay="800">
+            <div class="diary-link pop-up" data-delay="800">
                 <p><a href="#" data-target="0">05.28.2024 Daddy's Not at Home</a></p>
                 <p><a href="#" data-target="1">06.19.2024 It's My Birthday!</a></p>
                 <p><a href="#" data-target="2">07.05.2024 It's so Boring, Let's Be A Naughty Dog</a></p>

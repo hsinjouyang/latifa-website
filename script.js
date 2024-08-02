@@ -10,10 +10,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const menu = document.getElementById('sidebar-menu');
             const mainContent = document.querySelector('main');
             const body = document.body;
+            const menuToggle = document.querySelector('.dropbtn');
 
             if (menu && mainContent) {
                 menu.classList.toggle('show');
                 mainContent.classList.toggle('shift');
+                menuToggle.classList.toggle('open');
                 if (window.innerWidth >= 1024 && window.innerWidth <= 1365) {
                     body.classList.toggle('menu-open');
                 }
@@ -23,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Set up menu toggle
         const menuToggle = document.querySelector('.dropbtn');
         if (menuToggle) {
-            menuToggle.onclick = toggleMenu;
+            menuToggle.addEventListener('click', toggleMenu);
         }
 
         // Handle Resize Events
@@ -69,8 +71,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         console.log('Loading screen elements found');
 
-        const firstImageDuration = 500; // 0.5 seconds
-        const secondImageDuration = 500; // 0.5 seconds
+        const firstImageDuration = 1000; // 1 second
+        const secondImageDuration = 500; // 0.5 second
 
         function switchToSecondImage() {
             console.log('Switching to second image');
@@ -103,14 +105,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Scroll Animation Function
     function handleScrollAnimation() {
-        const elements = document.querySelectorAll('.fade-in');
+        const elements = document.querySelectorAll('.pop-up');
         const windowHeight = window.innerHeight;
-
+    
         elements.forEach((element) => {
             const elementTop = element.getBoundingClientRect().top;
-            const elementVisible = 150;
-
-            if (elementTop < windowHeight - elementVisible) {
+            const elementVisible = windowHeight - 50; // Trigger earlier
+    
+            if (elementTop < elementVisible) {
                 const delay = element.dataset.delay || 0;
                 setTimeout(() => {
                     element.classList.add('appear');
@@ -118,6 +120,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+    
+    // Make the effect more responsive
+    window.addEventListener('scroll', handleScrollAnimation, { passive: true });
+    
+    // Initial check for elements in view on page load
+    document.addEventListener('DOMContentLoaded', handleScrollAnimation);
 
     // Home page specific functionality
     function initHomePage() {
@@ -285,6 +293,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         });
+
+        // Setup "tap to enlarge" functionality for diary images
+        function setupDiaryImageEnlarge() {
+            const diaryImages = document.querySelectorAll('.update-carousel-item img');
+            
+            diaryImages.forEach(img => {
+                img.addEventListener('click', function() {
+                    if (window.innerWidth <= 768) {  // Only for mobile devices
+                        const fullscreenDiv = document.createElement('div');
+                        fullscreenDiv.className = 'fullscreen-image';
+                        const fullscreenImg = document.createElement('img');
+                        fullscreenImg.src = this.src;
+                        fullscreenDiv.appendChild(fullscreenImg);
+                        document.body.appendChild(fullscreenDiv);
+
+                        fullscreenDiv.addEventListener('click', () => {
+                            document.body.removeChild(fullscreenDiv);
+                        });
+                    }
+                });
+            });
+        }
+
+        setupDiaryImageEnlarge();
     }
 
     // Run common initialization

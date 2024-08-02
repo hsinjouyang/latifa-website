@@ -18,15 +18,21 @@
     <header>
         <div id="top"></div>
         <a href="index.html" id="home-link"><h1>LATIFA</h1></a>
-        <nav>
-            <button class="dropbtn" onclick="toggleMenu()">&#9776;</button>
+        <nav class="menu-container">
+            <button class="dropbtn" aria-label="Toggle menu">
+                <div class="hamburger-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+            <div class="dropdown-content" id="sidebar-menu">
+                <a href="index.html">HOME</a>
+                <a href="about.html">ABOUT</a>
+                <a href="gallery.html">GALLERY</a>
+            </div>
         </nav>
     </header>
-    <div class="dropdown-content" id="sidebar-menu">
-        <a href="index.html">HOME</a>
-        <a href="about.html">ABOUT</a>
-        <a href="gallery.html">GALLERY</a>
-    </div>
     <main>
     <div class="gallery-page">
         <section class="side-text" id="sideText">
